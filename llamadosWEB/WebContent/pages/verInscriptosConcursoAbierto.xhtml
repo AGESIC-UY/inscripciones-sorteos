@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:llamados="http://www.gub.uy/llamados">
+
+	<llamados:plantilla-internet>
+		<ui:define name="menu">
+			<ui:include src="menu.xhtml" />		
+		</ui:define>
+	
+		<ui:define name="cuerpo">
+						<b:form horizontal="true" id="altaForm">
+	
+				<h1>Lista de inscriptos al cupo #{listaInscriptoCupoMB.cupoConcursoAbiertoDTO.codigo} #{listaInscriptoCupoMB.cupoConcursoAbiertoDTO.descripcion} </h1>
+				
+					<b:dataTable lang="es" value="#{listaInscriptoCupoMB.listaInscriptos}" var="inscripto"
+					custom-options="dom: 'lfrtiBp',buttons: [{extend: 'excelHtml5', title:'Datos exportados', exportOptions: {columns: [ 0,1,2,3,4,5,6,7 ]}},'print']">
+						<b:dataTableColumn value="#{inscripto.numeroInscripcion}" label="Nro. inscripto"/>
+						<b:dataTableColumn value="#{inscripto.ci}-#{inscripto.barra}" label="CI"/>
+						<b:dataTableColumn value="#{inscripto.primerNombre} #{inscripto.segundoNombre}" label="Nombres"/>
+						<b:dataTableColumn value="#{inscripto.primerApellido} #{inscripto.segundoApellido}" label="Apellidos"/>
+						<b:dataTableColumn label="Fecha de nacimiento">
+							<h:outputText value="#{inscripto.fechaNacimiento}">
+								<f:convertDateTime pattern="dd/MM/yyyy"/>
+							</h:outputText>
+						</b:dataTableColumn>
+						<b:dataTableColumn value="#{inscripto.telefono}" label="Telefono"/>
+						<b:dataTableColumn value="#{inscripto.celular}" label="Celular"/>
+						<b:dataTableColumn value="#{inscripto.correoElectronico} " label="Correo electronico"/>
+						<b:dataTableColumn label="">
+							<b:commandButton id="inscribir"  style="margin-right:0px" action="#{listaInscriptoCupoMB.reenviarMailInscripcion(inscripto.id)}">
+								<b:iconAwesome name="envelope" style="color:#000"  tooltip="Reenviar mail inscripción."></b:iconAwesome>
+								<f:ajax event="click" execute="@form" render="@form"></f:ajax>
+							</b:commandButton>
+						</b:dataTableColumn>	
+						
+					</b:dataTable>		
+
+			</b:form>
+
+		</ui:define>
+	
+	</llamados:plantilla-internet>
+</html>

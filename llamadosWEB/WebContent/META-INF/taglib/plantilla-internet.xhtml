@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui"
+	xmlns:llamados="http://www.gub.uy/llamados"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<h:head>
+	 <link type="text/css" rel="stylesheet" href="../resources/css/sytile.css"></link>
+	 <link type="text/css" rel="stylesheet" href="resources/css/sytile.css"></link>
+	 
+	<ui:insert name="css">
+	</ui:insert>
+</h:head>
+
+
+<h:body>
+
+	<b:container fluid="true" styleClass="contenedor-plantilla" style="padding:0;">
+
+		<b:container fluid="true" styleClass="contenedor-cabezal">
+			<ui:insert name="cabezal-internet">
+				<llamados:plantilla-header/>
+			</ui:insert>
+		</b:container>
+	
+		<b:container fluid="true" styleClass="contenedor-menu" style="padding:0;">
+			<b:container fluid="false" style="padding:0;">
+				<ui:insert name="menu"/>
+			</b:container>	
+		</b:container>
+		
+		<b:container fluid="true"  style="padding:0;">
+			<b:container fluid="false" style="padding:0;margin-bottom:150px">
+				<ui:insert name="cuerpo"/>
+			</b:container>	
+		</b:container>
+		
+		<b:container fluid="true" styleClass="contenedor-pie">
+			<ui:insert name="cabezal-internet">
+				<llamados:plantilla-footer/>
+			</ui:insert>
+		</b:container>
+
+	</b:container>
+
+</h:body>
+
+</html>

@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:llamados="http://www.gub.uy/llamados"
+      xmlns:p="http://primefaces.org/ui">
+
+	<llamados:plantilla-internet>
+	
+		<ui:define name="cuerpo">
+
+							<b:formGroup rendered="#{listaCupoConcursoInscripcionMB.error}">
+					<b:form horizontal="true" style="margin-top: 50px" id="formError">
+						<h3 style="color:#000">Ocurrió un error</h3>
+						<h4 style="color:#000">#{listaCupoConcursoInscripcionMB.mensajeError}</h4>
+					</b:form>
+				</b:formGroup>
+
+				<b:formGroup rendered="#{ not listaCupoConcursoInscripcionMB.error}">
+					<h1 style="color: #000; font-weight:500;font-size: 3.5rem">Lista de cupos para el concurso</h1>
+					<hr/><br/>
+					<b:form horizontal="true" id="altaForm">
+						<p:dataTable lang="es" value="#{listaCupoConcursoInscripcionMB.listaCupoConcursoAbierto}" var="cupo"
+							reflow="true" styleClass="cabezal-tabla">
+							<p:column  headerText="Código">
+								<h:outputText value="#{cupo.codigo}" />
+							</p:column>
+							
+							<p:column headerText="Descripción">
+								<h:outputText value="#{cupo.descripcion}" />
+							</p:column>
+		
+							<p:column label="Inscripción">
+								<h:outputLink value="/app/llamados/pages/inscripcionCupoLlamadoAbierto.xhtml" style="margin-right:15px" title="Ver" >
+									<h:outputText value="Inscribirse" />
+									<f:param name="cupo" value="#{cupo.codigo}" />
+								</h:outputLink>
+							</p:column>							
+						</p:dataTable>		
+					</b:form>	
+				</b:formGroup>
+			
+		</ui:define>
+
+
+		
+	
+	</llamados:plantilla-internet>
+</html>

@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:llamados="http://www.gub.uy/llamados">
+
+	<llamados:plantilla-internet>
+		<ui:define name="menu">
+			<ui:include src="menu.xhtml" />		
+		</ui:define>
+	
+		<ui:define name="cuerpo">
+			<ui:include src="/pages/template/templateVerConcursoAbierto.xhtml">
+				<ui:param name="readOnly" value="false" />
+			</ui:include>
+		</ui:define>
+	
+	</llamados:plantilla-internet>
+</html>

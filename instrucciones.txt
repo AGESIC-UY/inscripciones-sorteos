@@ -1,0 +1,85 @@
+1 - Crear objetos en la base da datos (En esta aplicación Oracle como sistema de gestión de base de datos, tanto el script para crear los objetos necesarios como las Entitys de la aplicación utilizan sintaxis Oracle SQL)
+	En el script crearTodo.sql modificar esqBD, por el nombre del esquema correspondiente y USERDB por el usuario para conectarse a la base de datos.
+	Para crear el modelo de base datos ejecutar el script crearTodo.sql
+	El script barrar.sql elimina todos los objetos creados con crearTodo.sql
+
+2 - Como Aplication server se utilizo WildFly 10.1.0.Final (https://www.wildfly.org/downloads/)
+	2.1 Configurar el datasource. En el archivo .../wildfly-10.1.0.Final/standalone/configuration/standalone.xml agregar el datasourse
+	 <datasources>   
+	 .....
+                <datasource jndi-name="java:/llamadosDS" pool-name="llamadosDS" enabled="true">
+                    <connection-url>jdbc:oracle:thin:@(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST= host.gub.uy)(PORT=1528))(CONNECT_DATA=(SERVER=SHARED)(SERVICE_NAME=sn.gub.uy)))</connection-url>
+                    <driver>oracle</driver>
+                    <pool>
+                        <min-pool-size>1</min-pool-size>
+                        <max-pool-size>5</max-pool-size>
+                        <prefill>true</prefill>
+                    </pool>
+                    <security>
+                        <user-name>user</user-name>
+                        <password>pass</password>
+                    </security>
+                </datasource>
+	 .......
+	 </datasources>
+
+	2.2 Configurar driver de la base de datos
+		2.2.1 Copiar los archivos module.xml y ojdbc6.jar al directorio wildfly-10.1.0.Final/modules/system/layers/base/com/oracle/main/
+		2.2.2 Configurar standalone.xml con el driver para la base de datos. Agregar en el archivo /wildfly-10.1.0.Final/standalone/configuration/standalone.xml
+
+	 <datasources>   
+	 .....
+              <drivers>
+		    ...........
+                    <driver name="oracle" module="com.oracle">
+                        <driver-class>oracle.jdbc.driver.OracleDriver</driver-class>
+                    </driver>
+                </drivers>
+	 .......
+	 </datasources>
+
+	2.3 Configuracion propia para el envio de correo.
+		    <interfaces>
+			<interface name="management">
+			    <inet-address value="${jboss.bind.address.management:127.0.0.1}"/>
+			</interface>
+			<interface name="public">
+			    <inet-address value="${jboss.bind.address:127.0.0.1}"/>
+			</interface>
+		    </interfaces>
+
+		    <socket-binding-group name="standard-sockets" default-interface="public" port-offset="${jboss.socket.binding.port-offset:0}">
+			<socket-binding name="management-http" interface="management" port="${jboss.management.http.port:9990}"/>
+			<socket-binding name="management-https" interface="management" port="${jboss.management.https.port:9993}"/>
+			<socket-binding name="ajp" port="${jboss.ajp.port:8009}"/>
+			<socket-binding name="http" port="${jboss.http.port:8080}"/>
+			<socket-binding name="https" port="${jboss.https.port:8443}"/>
+			<socket-binding name="txn-recovery-environment" port="4712"/>
+			<socket-binding name="txn-status-manager" port="4713"/>
+			<outbound-socket-binding name="mail-smtp">
+			    <remote-destination host="localhost" port="25"/>
+			</outbound-socket-binding>
+		    </socket-binding-group>
+
+	2.4 En el directorio wildfly-10.1.0.Final/standalone/configuration/ copiar la carpeta properties, que contiene el archivo llamados.properties donde se agregan opciones globales de la aplicación
+
+3 Configuraciones del proyecto
+	3.1 En el proyecto llamadoWEBInscripcion, el en archivo src/uy/gub/imm/llamados/inscripcion/InscripcionMB.java, se deben configurar las credenciales para reCAPTCHA (lineas 72 - 90) 
+	3.2 En el proyecto llamadoWEBInscripcion, el en archivo src/uy/gub/imm/llamados/inscripcion/ResultadoMB.java, se deben agregar las url's para la baja de la inscripcion (lineas 72 - 90 )
+	3.3 En el proyecto llamadosEJBClient, en el archivo ejbModule/uy/gub/imm/llamados/util/FuncionesUtiles.java, se debe implementar el envio de correo electronico (lineas 51 - 59)
+		Idem para el proyecto llamadosWEB, en el archivo /src/uy/gub/imm/llamados/managedbeans/EnviarMensajeMB.java se debe implementar el envio de correo electronico
+
+4 Personalización de header y footer, parsonalizar el header y el footer se deben modificar en los proyectos llamadoWEBInscripcion y llamadoWEB los archivos WebContent/META-INF/taglib/ header.xhtml y footer.xhtml respectivamente 
+
+5 Deploy, se debe deployar los archivos llamadoEAR para la gestion de llamados y llamadoInscripcionEAR para la inscripcion a los llamados
+
+6 Descripción aplicacion
+	Lenguaje: Java (1.8)
+	Framework: JEE 
+
+7 Descripcion llamadoEAR
+	url: .../app/gestion/llamados/
+	Funcionalidades, altas llamados, modificación llamados, obtener datos de inscriptos, realizar sorteos.
+8 Descripción llamadoInscripcionEAR
+	url: .../app/llamados/
+	Funcionalidades, ver lista de llamados vigentes, inscripción a llamado, baja a llamado.

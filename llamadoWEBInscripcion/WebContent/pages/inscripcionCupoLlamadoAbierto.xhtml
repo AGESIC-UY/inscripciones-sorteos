@@ -1,0 +1,139 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:llamados="http://www.gub.uy/llamados"
+      xmlns:p="http://primefaces.org/ui">
+
+	<llamados:plantilla-internet>
+	
+		<ui:define name="cuerpo">
+
+				<script src="https://www.google.com/recaptcha/api.js"></script>
+				<b:formGroup rendered="#{inscripcionMB.error}">
+					<b:form horizontal="true" style="margin-top: 50px" id="formError">
+						<h3 style="text-align:center;">Ocurrió un error</h3>
+						<h4 style="text-align:center;">#{inscripcionMB.mensajeError}</h4>
+					</b:form>
+				</b:formGroup>
+		
+				<b:formGroup rendered="#{not inscripcionMB.error}">
+					<b:form horizontal="true" style="margin-top: 50px" id="formICL">
+					
+						<div class="rows" style="text-align: center;">
+							<h3 style="text-align:center;color:#000">Formulario de inscripción al llamado</h3>
+							<h4 style="text-align:center;color:#000">Concurso: #{inscripcionMB.inscripcion.cupoConcursoAbiertoDTO.concurso.descripcion}, cupo: #{inscripcionMB.inscripcion.cupoConcursoAbiertoDTO.descripcion}</h4>
+							<br/>
+	
+							<h4 style="color:#000" >Datos del aspirante</h4>
+							
+						</div>
+						
+						<b:messages id="messages" globalOnly="false" severity="error"/>
+						
+						<b:formGroup  style="margin-left: 20px;margin-top: 30px">
+	
+							<b:inputText id="primerNombreId" value="#{inscripcionMB.inscripcion.primerNombre}" placeholder="Primer nombre"  label="Primer nombre: " required="true"  
+								requiredMessage="El campo Primer nombre es obligatorio" label-style="text-align: left;"  style="margin-top: 10px;" ajax="true" 
+								label-col-xs="12" col-xs="12" label-col-sm="12" col-sm="12" label-col-md="3" col-md="9"  label-col-lg="2" col-lg="4" />
+	
+							<b:inputText id="segundoNombreId" placeholder="Segundo nombre"  label="Segundo nombre:"  value="#{inscripcionMB.inscripcion.segundoNombre}"
+								label-style="text-align: left;margin-top: 10px"  style="margin-top: 10px"
+								label-col-xs="12" col-xs="12" label-col-sm="12" col-sm="12" label-col-md="3" col-md="9"  label-col-lg="2" col-lg="4" />
+	
+							<b:inputText id="primerApellidoId" value="#{inscripcionMB.inscripcion.primerApellido}" placeholder="Primer apellido"  label="Primer apellido: " required="true"
+								requiredMessage="El campo Primer apellido es obligatorio" label-style="text-align: left;margin-top: 10px" style="margin-top: 10px"
+								label-col-xs="12" col-xs="12" label-col-sm="12" col-sm="12" label-col-md="3" col-md="9"  label-col-lg="2" col-lg="4" />
+	
+							<b:inputText id="segundoApellidoId" placeholder="Segundo apellido"  label="Segundo apellido: " required="false" value="#{inscripcionMB.inscripcion.segundoApellido}"
+								label-style="text-align: left;margin-top: 10px" style="margin-top: 10px"
+								label-col-xs="12" col-xs="12" label-col-sm="12" col-sm="12" label-col-md="3" col-md="9"  label-col-lg="2" col-lg="4" />
+	
+							<b:inputText id="ciId" value="#{inscripcionMB.ciString}" label="CI:"  mask="9{6,7}-9" required="true"
+								requiredMessage="El campo CI es obligatorio" label-style="text-align: left;margin-top: 10px" style="margin-top: 10px" 
+								label-col-xs="12" col-xs="12" label-col-sm="12" col-sm="12" label-col-md="3" col-md="9"  label-col-lg="2" col-lg="4" />
+	
+							<b:dateTimePicker locale="es" id="fechaNacimientoId" value="#{inscripcionMB.inscripcion.fechaNacimiento}" label="Fecha de nacimiento: " format="DD/MM/YYYY"
+								required="true" requiredMessage="El campo Fecha de nacimiento es obligatorio" 
+								label-style="text-align: left;margin-top: 10px" style="margin-top: 10px" label-col-xs="12" col-xs="12" label-col-sm="12" col-sm="12" label-col-md="3" col-md="9"  label-col-lg="2" col-lg="4" />
+	
+							<b:selectOneMenu id="sexoGeneroId" label="Sexo/Género" label-style="text-align: left;margin-top: 10px" style="margin-top: 10px" required="true"
+								requiredMessage="El campo Sexo/Género es obligatorio" value="#{inscripcionMB.idSexoGeneroSeleccionado}"
+								label-col-xs="12" col-xs="12" label-col-sm="12" col-sm="12" label-col-md="3" col-md="9"  label-col-lg="2" col-lg="4">
+									<f:selectItem itemLabel="Seleccionar..." itemValue="" />
+									<f:selectItems  value="#{inscripcionMB.listaSexoGenero}" var="s" itemValue="#{s.id}" itemLabel="#{s.descripcion}"></f:selectItems>
+							</b:selectOneMenu>
+							
+							<b:inputText id="telefonoContactoId" placeholder="Teléfono de contacto"  label="Teléfono de contacto (de Montevideo): " required="true" 
+								requiredMessage="El campo Teléfono de contacto es obligatorio" mask="9{4}-9{4}" label-style="text-align: left;margin-top: 10px" style="margin-top: 10px" value="#{inscripcionMB.inscripcion.telefono}"
+								label-col-xs="12" col-xs="12" label-col-sm="12" col-sm="12" label-col-md="3" col-md="9"  label-col-lg="2" col-lg="4" />
+								
+							
+						</b:formGroup>
+	
+							<b:formGroup  style="margin-left: 20px">
+	
+								<b:inputText id="telefonoCelularId" placeholder="Teléfono celular"  label="Teléfono celular: " required="false" mask="9{9}" value="#{inscripcionMB.inscripcion.celular}"
+									label-style="text-align: left;margin-top: 10px" style="margin-top: 10px"
+									label-col-xs="12" col-xs="12" label-col-sm="12" col-sm="12" label-col-md="3" col-md="9"  label-col-lg="2" col-lg="4" />
+		
+								<b:inputText id="correoElectronicoId" placeholder="Correo Electrónico "  label="Correo Electrónico:"  mask="email" required="true"
+									requiredMessage="El campo Correo Electrónico es obligatorio" label-style="text-align: left;margin-top: 10px"  style="margin-top: 10px" value="#{inscripcionMB.inscripcion.correoElectronico}"
+									label-col-xs="12" col-xs="12" label-col-sm="12" col-sm="12" label-col-md="3" col-md="9"  label-col-lg="2" col-lg="4" />
+								
+							</b:formGroup>
+	
+							<b:formGroup  style="margin-left: 20px">
+								<b:inputText id="direccionContactoId" placeholder="Dirección de contacto"  label="Dirección de contacto (de Montevideo): " 
+									value="#{inscripcionMB.inscripcion.direccion}" required="true" 
+									requiredMessage="El campo Dirección de contacto es obligatorio" label-style="text-align: left;margin-top: 10px" style="margin-top: 10px" 
+									label-col-xs="12" col-xs="12" label-col-sm="12" col-sm="12" label-col-md="4" col-md="8"  label-col-lg="5" col-lg="7" />
+							</b:formGroup>
+							
+	
+							<br/>
+							<br/>						
+							
+							<b:jumbotron>
+								De conformidad con la Ley N° 18.331, de 11 de agosto de 2008, de Protección de Datos Personales y Acción de Habeas Data (LPDP, los datos suministrados por usted quedarán incorporados en una base de datos, la cual será tratada por la Intendencia de Montevideo a efectos de comunicarse con Ud. o enviar información relevante que pueda ser de su interés en temas vinculados a sus trámites, gestiones, obras que puedan afectar su entorno, entre otras y que tienen que ver con su relación con la misma.
+								En el tratamiento de los datos personales se garantizará un nivel de protección adecuado y se guardará estricto secreto profesional sobre éstos, de acuerdo con lo dispuesto por el artículo 302 del Código Penal.
+								Asimismo se tomarán las medidas de seguridad necesarias para evitar su alteración, pérdida, tratamiento o acceso no autorizado por parte de terceros.
+								El respónsable de la base de datos es la Intendencia de Montevideo y la dirección donde podrá ejercer los derechos de acceso, rectificación, actualización, inclusión o supresión, es Avda. 18 de Julio N° 1360, según lo establecido en la LPDP.
+<!-- 								<div class="rows" style="text-align: center;width:80%;margin: 0 auto;color: red;border: 3px solid black;padding: 10px;"> -->
+<!-- 								EN CASO DE CORRESPONDER, SóLO PODRáN INSCRIBIRSE A UNO DE LOS CUPOS -GENERAL O AFRODESCENDIENTE- ; -->
+<!-- 								 SI SE EFECTúA INSCRIPCIóN EN AMBOS CUPOS QUEDARá AUTOMáTICAMENTE ELIMINADO/A DEL CONCURSO  -->
+<!-- 								</div> -->
+							</b:jumbotron>
+							<br/>
+	
+							<br/>
+							
+							<b:messages id="messagesInferior" globalOnly="false" severity="error"/>
+
+
+							<div style="text-align: center;margin: 10px auto;">
+								<b:buttonGroup>
+									<div id="divCaptcha" class="g-recaptcha" data-sitekey="#{inscripcionMB.claveSitioWeb}"></div>
+								</b:buttonGroup>
+							</div>							
+							<div style="text-align: center;margin: 0 auto;">
+								<b:buttonGroup>
+									<b:commandButton value="Inscribirse" action="#{inscripcionMB.inscribirse()}" look="primary" ajax="true" update="#{inscripcionMB.rederizarEnForm}"/>
+								</b:buttonGroup>
+							</div>
+
+							</b:form>
+
+				</b:formGroup>
+
+			
+		</ui:define>
+
+
+		
+	
+	</llamados:plantilla-internet>
+</html>

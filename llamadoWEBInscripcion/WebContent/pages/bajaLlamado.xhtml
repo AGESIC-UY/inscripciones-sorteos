@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:llamados="http://www.gub.uy/llamados"
+      xmlns:p="http://primefaces.org/ui">
+
+	<llamados:plantilla-internet>
+	
+		<ui:define name="cuerpo">
+
+			<b:form horizontal="true" style="margin-top: 50px" id="formErrores">
+				<b:messages ></b:messages>
+			</b:form>
+			<ui:include src="/pages/templateDatosInscripcion.xhtml">
+				<ui:param name="datos" value="#{bajaInscripcionMB}" />
+			</ui:include>
+		
+		</ui:define>
+
+
+		
+	
+	</llamados:plantilla-internet>
+</html>

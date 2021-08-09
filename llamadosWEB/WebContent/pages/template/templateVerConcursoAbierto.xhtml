@@ -1,0 +1,143 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:b="http://bootsfaces.net/ui"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:imm="http://www.imm.gub.uy/coreimm">
+	<head>
+		<style>
+		</style>
+	
+	</head>
+
+
+	<body>
+		<ui:composition>
+		
+			<b:form horizontal="true" id="editForm">
+			<h1>Datos del llamado</h1>
+				
+    		<b:panel  look="primary">
+    		
+    			<b:messages></b:messages>
+    			
+				<b:panelGrid  colSpans="6,6" >
+					<b:inputText id="codigo" value="#{editarConcursoAbiertoMB.concursoAbierto.codigo}" placeholder="C&oacute;digo" required="true" label="C&oacute;digo:" colMd="5" labelColMd="7" 
+					label-style="text-align:left;" required-message="El campo c&oacute;digo es requerido"  readonly="#{readOnly}">
+					</b:inputText>
+					<b:message for="codigo" col-md="11" only-most-severe="true"></b:message>
+				</b:panelGrid>
+
+				<b:panelGrid  colSpans="6,6">
+					<b:inputText id="descripcion" value="#{editarConcursoAbiertoMB.concursoAbierto.descripcion}" placeholder="Descripci&oacute;n" required="true" label="Descripci&oacute;n"  colMd="5" labelColMd="7" 
+					label-style="text-align:left;" required-message="El campo descripci&oacute;n es requerido" readonly="#{readOnly}">
+					</b:inputText>
+					<b:message for="descripcion" col-md="11" only-most-severe="true"></b:message>
+				</b:panelGrid>
+				
+				<b:panelGrid  colSpans="6,6">
+					<b:inputText id="edadTope" value="#{editarConcursoAbiertoMB.concursoAbierto.edadTope}" placeholder=""  label="Tope de edad:"  colMd="5" labelColMd="7" 
+					label-style="text-align:left;" readonly="#{readOnly}">
+					</b:inputText>
+					<b:message for="edadTope" col-md="11" only-most-severe="true"></b:message>
+				</b:panelGrid>
+
+				<b:panelGrid  colSpans="6,6">
+					<b:dateTimePicker locale="es" value="#{editarConcursoAbiertoMB.concursoAbierto.fechaDesde}" id="fecheDesde" show-time="false" required="true" label="Fecha de inicio:" 
+					colMd="5" labelColMd="7" label-style="text-align:left" readonly="#{readOnly}" ></b:dateTimePicker>
+					<b:message for="fecheDesde" col-md="11" only-most-severe="true"></b:message>
+				</b:panelGrid>
+				
+				<b:panelGrid  colSpans="6,6">
+					<b:dateTimePicker locale="es" value="#{editarConcursoAbiertoMB.concursoAbierto.fechaHasta}" id="fechaHasta" show-time="false" required="true" label="Fecha de fin" 
+					colMd="5" labelColMd="7" label-style="text-align:left" readonly="#{readOnly}"></b:dateTimePicker>
+					<b:message for="fechaHasta" col-md="11" only-most-severe="true"></b:message>
+				</b:panelGrid>
+
+
+				<b:panel title="Seleccionar cupo para agregar" look="primary" rendered="#{(not  readOnly) and editarConcursoAbiertoMB.existeCupoParaAgregar}">
+					<ui:repeat  var="t" value="#{editarConcursoAbiertoMB.listaTipoCupoConcursoAbierto}" varStatus="status">
+						<b:selectBooleanCheckbox value="#{t.seleccionado}" colMd="4" labelColMd="3" label="#{t.descripcion}"/>				
+					</ui:repeat>
+				</b:panel>				
+				
+				
+				
+				<b:dataTable lang="es" value="#{editarConcursoAbiertoMB.concursoAbierto.listaCupoConcursoAbiertoDTO}" var="cupo" searching="false" paginated="false" info="false">
+
+					<b:dataTableColumn label="C&oacute;digo">
+						<b:inputText value="#{cupo.codigo}" rendered="#{not readOnly}" style="margin-left:15px" required="true" required-message="El campo c&oacute;digo del cupo es obligatorio"/>
+      					<h:outputText value="#{cupo.codigo}" rendered="#{readOnly}" />
+					</b:dataTableColumn>
+
+					<b:dataTableColumn label="Descripci&oacute;n">
+						<b:inputText value="#{cupo.descripcion}" rendered="#{not readOnly}" style="margin-left:15px" required="true" required-message="El campo descipci&oacute;n del cupo es obligatorio" />
+      					<h:outputText value="#{cupo.descripcion}" rendered="#{readOnly}" />
+					</b:dataTableColumn>
+
+					<b:dataTableColumn label="Cant. de plazas">
+						<b:inputText type="number" value="#{cupo.plazas}" rendered="#{not readOnly}" style="margin-left:15px" />
+      					<h:outputText value="#{cupo.plazas}" rendered="#{readOnly}" />
+					</b:dataTableColumn>
+
+					<b:dataTableColumn value="" label="Lista de inscriptos" >
+						
+						<h:outputLink value="/app/gestion/llamados/pages/verInscriptosConcursoAbierto.xhtml" title="Ver" style="text-decoration:none;color:black;" >
+							<b:iconAwesome name="fa-list-alt" style="color:none"></b:iconAwesome>
+							Cantidad de inscriptos: #{cupo.cantidadInscriptos}
+							<f:param name="cupo" value="#{cupo.codigo}" />
+						</h:outputLink>
+						
+
+						<h:outputLink value="/app/gestion/llamados/pages/enviarMensajeInscriptos.xhtml" style="margin-right:15px" title="Ver">
+							<b:iconAwesome name="envelope" style="color:#000;margin-left:15px"  tooltip="Enviar mensaje a todos los inscriptos"></b:iconAwesome>
+							<f:param name="cupo" value="#{cupo.codigo}" />
+						</h:outputLink>
+						
+
+						
+				
+					</b:dataTableColumn>
+
+					<b:dataTableColumn value="" label="Sorteo" >
+							<div style="text-align:center;">
+								<h:outputLink value="/app/gestion/llamados/pages/sorteo.xhtml" style="margin-right:15px" title="Ver">
+									<b:iconAwesome name="eye" style="color:#000" ></b:iconAwesome>
+									<f:param name="cupo" value="#{cupo.codigo}" />
+								</h:outputLink>
+								<h:outputLink value="/app/gestion/llamados/pages/sorteo.xhtml" title="Editar">
+									<b:iconAwesome name="pencil" style="color:#000"></b:iconAwesome>
+									<f:param name="cupo" value="#{cupo.codigo}" />
+								</h:outputLink>
+							</div>
+					</b:dataTableColumn>
+
+				</b:dataTable>
+				
+				<b:commandButton style="margin-top:20px;" rendered="#{not readOnly}" colMd="4"  offset="4" value="Actualizar llamado" 
+				action="#{editarConcursoAbiertoMB.actualizarConcursoAbierto()}"  onclick="$('.modalPseudoClass').modal('show')" onsuccess="$('.modalPseudoClass').modal('hide');">
+					<f:ajax event="click" execute="@form" render="@form"></f:ajax>
+				</b:commandButton>
+
+
+	<b:modal id="amodal2" title="Procesando...." styleClass="modalPseudoClass" 
+           closable="false"  close-on-escape="false" backdrop="false">
+           <p style="display:block;text-align: center;padding-top:25px;padding-bottom:25px;">
+               		 <b:iconAwesome name="spinner" spin="true" size="3x" solid="true" />
+           
+           </p>
+
+  </b:modal>
+				
+			</b:panel>
+			
+			</b:form>
+
+		</ui:composition>
+
+	</body>
+
+
+</html>

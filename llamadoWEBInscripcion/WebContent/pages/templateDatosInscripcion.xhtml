@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:b="http://bootsfaces.net/ui"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:imm="http://www.imm.gub.uy/coreimm">
+	<head>
+		<style>
+		</style>
+	
+	</head>
+
+
+	<body>
+		<ui:composition>
+			<c:set var="datos" value="#{datos}" scope="request" />
+		<div class="container">
+			<b:formGroup rendered="#{datos.error}">
+				<b:form horizontal="true" style="margin-top: 50px" id="formError">
+					<h3 style="text-align:center;">Ocurrió un error</h3>
+					<h4 style="text-align:center;">#{datos.mensajeError}</h4>
+				</b:form>
+			</b:formGroup>
+		
+			<b:formGroup rendered="#{not datos.error}" >
+				<b:form horizontal="true" style="margin-top: 50px" id="formICL">
+					<b:messages ></b:messages>
+					
+					<h3 style="text-align:center;color:#000">Resultado de la inscripción</h3>
+					<h4 style="text-align:center;color:#000">La inscripción al llamado: #{datos.inscripcion.cupoConcursoAbiertoDTO.concurso.codigo}, para el cupo: #{datos.inscripcion.cupoConcursoAbiertoDTO.codigo} se ha realizado con éxito.</h4>
+					<h4 style="text-align:center;color:#000">Su número de inscripción es el #{datos.inscripcion.numeroInscripcion} </h4>
+					
+					<br/>
+					<label style="font-size: 1.5rem;color:#000">Datos ingresados</label>
+					<b:formGroup  style="margin-left: 20px;margin-top: 30px">
+
+
+						<b:inputText id="primerNombreId" value="#{datos.inscripcion.primerNombre}" placeholder="Primer nombre"  label="Primer nombre: "   
+							disabled="true" requiredMessage="El campo Primer nombre es obligatorio" label-style="text-align: left;"  style="margin-top: 10px;" ajax="true" 
+							label-col-xs="12" col-xs="12" label-col-sm="12" col-sm="12" label-col-md="3" col-md="9"  label-col-lg="2" col-lg="4" />
+
+						<b:inputText id="segundoNombreId" placeholder="Segundo nombre"  label="Segundo nombre:"  value="#{datos.inscripcion.segundoNombre}"
+							disabled="true" label-style="text-align: left;margin-top: 10px"  style="margin-top: 10px"
+							label-col-xs="12" col-xs="12" label-col-sm="12" col-sm="12" label-col-md="3" col-md="9"  label-col-lg="2" col-lg="4" />
+
+						<b:inputText id="primerApellidoId" value="#{datos.inscripcion.primerApellido}" placeholder="Primer apellido"  label="Primer apellido: " 
+							disabled="true" requiredMessage="El campo Primer apellido es obligatorio" label-style="text-align: left;margin-top: 10px" style="margin-top: 10px"
+							label-col-xs="12" col-xs="12" label-col-sm="12" col-sm="12" label-col-md="3" col-md="9"  label-col-lg="2" col-lg="4" />
+
+						<b:inputText id="segundoApellidoId" placeholder="Segundo apellido"  label="Segundo apellido: " required="false" value="#{datos.inscripcion.segundoApellido}"
+							disabled="true" label-style="text-align: left;margin-top: 10px" style="margin-top: 10px"
+							label-col-xs="12" col-xs="12" label-col-sm="12" col-sm="12" label-col-md="3" col-md="9"  label-col-lg="2" col-lg="4" />
+
+						<b:inputText id="ciId" value="#{datos.inscripcion.ci}-#{datos.inscripcion.barra}" label="CI:" 
+							disabled="true" requiredMessage="El campo CI es obligatorio" label-style="text-align: left;margin-top: 10px" style="margin-top: 10px" 
+							label-col-xs="12" col-xs="12" label-col-sm="12" col-sm="12" label-col-md="3" col-md="9"  label-col-lg="2" col-lg="4" />
+
+						<b:dateTimePicker locale="es" id="fechaNacimientoId" value="#{datos.inscripcion.fechaNacimiento}" label="Fecha de nacimiento: " format="DD/MM/YYYY"
+							disabled="true"  requiredMessage="El campo Fecha de nacimiento es obligatorio" 
+							label-style="text-align: left;margin-top: 10px" style="margin-top: 10px" label-col-xs="12" col-xs="12" label-col-sm="12" col-sm="12" label-col-md="3" col-md="9"  label-col-lg="2" col-lg="4" />
+
+						<b:inputText id="ciSexo" value="#{datos.inscripcion.sexoGeneroDTO.descripcion}" label="Sexo:" 
+							disabled="true" requiredMessage="El campo CI es obligatorio" label-style="text-align: left;margin-top: 10px" style="margin-top: 10px" 
+							label-col-xs="12" col-xs="12" label-col-sm="12" col-sm="12" label-col-md="3" col-md="9"  label-col-lg="2" col-lg="4" />
+
+
+						
+						
+						<b:inputText id="telefonoContactoId" placeholder="Teléfono de contacto"  label="Teléfono de contacto (de Montevideo): "  
+							disabled="true" requiredMessage="El campo Teléfono de contacto es obligatorio" mask="9{4}-9{4}" label-style="text-align: left;margin-top: 10px" style="margin-top: 10px" value="#{datos.inscripcion.telefono}"
+							label-col-xs="12" col-xs="12" label-col-sm="12" col-sm="12" label-col-md="3" col-md="9"  label-col-lg="2" col-lg="4" />
+							
+						
+					</b:formGroup>
+
+						<b:formGroup  style="margin-left: 20px">
+							
+							<b:inputText id="telefonoCelularId" placeholder="Teléfono celular"  label="Teléfono celular: " required="false" mask="9{9}" value="#{datos.inscripcion.celular}"
+								disabled="true" label-style="text-align: left;margin-top: 10px" style="margin-top: 10px"
+								label-col-xs="12" col-xs="12" label-col-sm="12" col-sm="12" label-col-md="3" col-md="9"  label-col-lg="2" col-lg="4" />
+	
+							<b:inputText id="correoElectronicoId" placeholder="Correo Electrónico "  label="Correo Electrónico:"  mask="email" 
+								disabled="true" requiredMessage="El campo Correo Electrónico es obligatorio" label-style="text-align: left;margin-top: 10px"  style="margin-top: 10px" value="#{datos.inscripcion.correoElectronico}"
+								label-col-xs="12" col-xs="12" label-col-sm="12" col-sm="12" label-col-md="3" col-md="9"  label-col-lg="2" col-lg="4" />
+							
+						</b:formGroup>
+
+						<b:formGroup  style="margin-left: 20px">
+							<b:inputText id="direccionContactoId" placeholder="Dirección de contacto"  label="Dirección de contacto (de Montevideo): " 
+								value="#{datos.inscripcion.direccion}"  disabled="true"
+								requiredMessage="El campo Dirección de contacto es obligatorio" label-style="text-align: left;margin-top: 10px" style="margin-top: 10px" 
+								label-col-xs="12" col-xs="12" label-col-sm="12" col-sm="12" label-col-md="4" col-md="8"  label-col-lg="5" col-lg="7" />
+						</b:formGroup>
+						
+												<br/>
+						<div style="text-align: center;margin: 0 auto;">
+							<b:buttonGroup style="text-align: center;margin: 0 auto;">
+								<b:commandButton type="submit"  value="Darse de baja" action="#{bajaInscripcionMB.eliminarInscipcion()}" style-class="imm-boton"  ajax="true" update="formICL" />
+								
+							</b:buttonGroup>
+
+						</div>
+						<br/>
+						</b:form>
+			</b:formGroup>
+		</div>	
+
+		</ui:composition>
+
+	</body>
+
+
+</html>

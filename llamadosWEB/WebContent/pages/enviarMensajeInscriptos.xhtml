@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:llamados="http://www.gub.uy/llamados">
+
+	<llamados:plantilla-internet>
+		<ui:define name="menu">
+			<ui:include src="menu.xhtml" />		
+		</ui:define>
+	
+		<ui:define name="cuerpo">
+
+			<b:form horizontal="true" id="envioMensajesForm">
+				<h1>Enviar mensaje a inscriptos</h1>
+				
+	    		<b:panel title="Datos del concurso" look="primary" collapsible="false">
+	 
+	 				<b:messages id="messages"/>
+	 
+	 				<b:panelGrid  colSpans="6,6" >
+						<b:inputText id="idCodigoConcurso" value="#{enviarMensajeMB.cupoConcursoAbiertoDTO.concurso.codigo}" label="Codigo concurso:"  
+						readonly="true" colMd="5" labelColMd="7" label-style="text-align:left;" >
+						</b:inputText>
+						<b:message for="idCodigoConcurso" col-md="11" only-most-severe="true"></b:message>
+					</b:panelGrid>
+					 <b:panelGrid  colSpans="6,6" >
+						<b:inputText id="idCodigoCupo" value="#{enviarMensajeMB.cupoConcursoAbiertoDTO.codigo}" label="Codigo cupo:"  
+						readonly="true" colMd="5" labelColMd="7" label-style="text-align:left;" >
+						</b:inputText>
+						<b:message for="idCodigoCupo" col-md="11" only-most-severe="true"></b:message>
+					</b:panelGrid>
+					<b:panelGrid colSpans="12">
+						<b:inputTextarea value="#{enviarMensajeMB.mensajeCorreo}" label="Mensaje" colMd="12" label-col-md="7" label-style="text-align:left;">
+						</b:inputTextarea>
+					</b:panelGrid>
+					<b:panelGrid colSpans="12" >
+						<b:commandButton id="btnSorteo" style="margin-top:20px;" value="Enviar correos" action="#{enviarMensajeMB.enviarCorreos()}"  colMd="4"  offset="4"
+						></b:commandButton>
+						</b:panelGrid>
+				</b:panel>	
+	
+			</b:form>
+
+
+		</ui:define>
+	
+	</llamados:plantilla-internet>
+</html>

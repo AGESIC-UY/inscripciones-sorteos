@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:llamados="http://www.gub.uy/llamados">
+
+	<llamados:plantilla-internet>
+		<ui:define name="menu">
+			<ui:include src="menu.xhtml" />		
+		</ui:define>
+	
+		<ui:define name="cuerpo">
+			
+			<b:form horizontal="true" id="altaForm">
+				<h1>Alta de concurso abierto</h1>
+				
+    		<b:panel title="Datos del llamado" look="primary">
+    		
+    			<b:messages></b:messages>
+    			
+				<b:panelGrid  colSpans="6,6" >
+					<b:inputText id="codigo" value="#{crearConcursoAbiertoMB.concursoAbierto.codigo}" placeholder="Código" required="true" label="Código:" colMd="5" labelColMd="7" 
+					label-style="text-align:left;" required-message="El campo código es requerido">
+					</b:inputText>
+					<b:message for="codigo" col-md="11" only-most-severe="true"></b:message>
+				</b:panelGrid>
+
+				<b:panelGrid  colSpans="6,6">
+					<b:inputText id="descripcion" value="#{crearConcursoAbiertoMB.concursoAbierto.descripcion}" placeholder="Descripción" required="true" label="Descripción:"  colMd="5" labelColMd="7" 
+					label-style="text-align:left;" required-message="El campo descripción es requerido">
+					</b:inputText>
+					<b:message for="descripcion" col-md="11" only-most-severe="true"></b:message>
+				</b:panelGrid>
+				
+				<b:panelGrid  colSpans="6,6">
+					<b:inputText id="edadTope" value="#{crearConcursoAbiertoMB.concursoAbierto.edadTope}" placeholder="Edad tope"  label="Tope de edad:"  colMd="5" labelColMd="7" 
+					label-style="text-align:left;" >
+					</b:inputText>
+					<b:message for="edadTope" col-md="11" only-most-severe="true"></b:message>
+				</b:panelGrid>
+
+				<b:panelGrid  colSpans="6,6">
+					<b:dateTimePicker locale="es" value="#{crearConcursoAbiertoMB.concursoAbierto.fechaDesde}" id="fecheDesde" show-time="false" required="true" label="Fecha de inicio:" placeholder="01/01/2019" colMd="5" labelColMd="7" label-style="text-align:left"></b:dateTimePicker>
+					<b:message for="fecheDesde" col-md="11" only-most-severe="true"></b:message>
+				</b:panelGrid>
+				
+				<b:panelGrid  colSpans="6,6">
+					<b:dateTimePicker locale="es" value="#{crearConcursoAbiertoMB.concursoAbierto.fechaHasta}" id="fechaHasta" show-time="false" required="true" label="Fecha de fin" placeholder="01/01/2019" colMd="5" labelColMd="7" label-style="text-align:left"></b:dateTimePicker>
+					<b:message for="fechaHasta" col-md="11" only-most-severe="true"></b:message>
+				</b:panelGrid>
+				
+
+	    		<b:panel id="tc" title="Tipos de cupo para el llamado" look="primary">
+	
+					<b:message for="tc" col-md="11" only-most-severe="true"></b:message>
+					
+					<ui:repeat  var="t" value="#{crearConcursoAbiertoMB.listaTipoCupoConcursoAbierto}" varStatus="status">
+						<b:selectBooleanCheckbox value="#{t.seleccionado}" colMd="4" labelColMd="3" label="#{t.descripcion}"/>				
+					</ui:repeat>
+					
+				</b:panel>
+				<b:commandButton style="margin-top:20px;" value="Alta llamado" action="#{crearConcursoAbiertoMB.altaLlamado()}"  ajax="true" update="altaForm" colMd="4"  offset="4">
+				</b:commandButton>
+
+			</b:panel>
+
+			</b:form>
+			
+			
+		</ui:define>
+	
+	</llamados:plantilla-internet>
+</html>

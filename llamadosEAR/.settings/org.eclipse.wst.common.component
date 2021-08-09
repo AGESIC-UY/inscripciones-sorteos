@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="llamadosEAR">
+        <wb-resource deploy-path="/" source-path="/EarContent" tag="defaultRootSource"/>
+        <dependent-module archiveName="llamadosJPA.jar" deploy-path="/lib" handle="module:/resource/llamadosJPA/llamadosJPA">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="llamadosEJB.jar" deploy-path="/" handle="module:/resource/llamadosEJB/llamadosEJB">
+            <dependent-object/>
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="llamadosEJBClient.jar" deploy-path="/" handle="module:/resource/llamadosEJBClient/llamadosEJBClient">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="gson-2.8.5.jar" deploy-path="/lib" handle="module:/classpath/lib//home/im4545582/Aplicaciones/Ambiente-Jee-Wildfly/workspace-neon-sau/lib/gson-2.8.5.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="llamadosWEB.war" deploy-path="/" handle="module:/resource/llamadosWEB/llamadosWEB">
+            <dependent-object/>
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+    </wb-module>
+</project-modules>

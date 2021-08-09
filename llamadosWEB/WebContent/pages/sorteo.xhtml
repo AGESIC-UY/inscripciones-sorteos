@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:llamados="http://www.gub.uy/llamados">
+
+	<llamados:plantilla-internet>
+		<ui:define name="menu">
+			<ui:include src="menu.xhtml" />		
+		</ui:define>
+	
+		<ui:define name="cuerpo">
+			<b:form horizontal="true" id="altaForm">
+				<h1>Página de sorteo</h1>
+				
+	    		<b:panel title="Datos del concurso" look="primary" collapsible="false">
+	 
+	 				<b:messages id="messages" globalOnly="false" severity="error"/>
+	 
+	 				<b:panelGrid  colSpans="6,6" >
+						<b:inputText id="idCodigoConcurso" value="#{sorteoMB.cupoConcursoAbiertoDTO.concurso.codigo}" label="Codigo concurso:"  
+						readonly="true" colMd="5" labelColMd="7" label-style="text-align:left;" >
+						</b:inputText>
+						<b:message for="idCodigoConcurso" col-md="11" only-most-severe="true"></b:message>
+					</b:panelGrid>
+					 <b:panelGrid  colSpans="6,6" >
+						<b:inputText id="idCodigoCupo" value="#{sorteoMB.cupoConcursoAbiertoDTO.codigo}" label="Codigo cupo:"  
+						readonly="true" colMd="5" labelColMd="7" label-style="text-align:left;" >
+						</b:inputText>
+						<b:message for="idCodigoCupo" col-md="11" only-most-severe="true"></b:message>
+					</b:panelGrid>
+	
+						<b:panelGrid  colSpans="6,6" >
+							<b:inputText id="idSemilla" value="#{sorteoMB.cupoConcursoAbiertoDTO.sorteo.semilla}" placeholder="Semilla" required="true" label="Semilla:"  
+							readonly="#{(sorteoMB.cupoConcursoAbiertoDTO.sorteo.id != null)}" colMd="5" labelColMd="7" label-style="text-align:left;" required-message="El campo semilla es requerido">
+							</b:inputText>
+							<b:message for="idSemilla" col-md="11" only-most-severe="true"></b:message>
+						</b:panelGrid>
+						
+						<b:panelGrid  colSpans="6,6" rendered="#{sorteoMB.cupoConcursoAbiertoDTO.sorteo.id != null  }">
+							<b:inputText id="idFechaRealizado" value="#{sorteoMB.cupoConcursoAbiertoDTO.sorteo.fechaSorteo}" label="Fecha del sorteo:"  
+							colMd="5" labelColMd="7" label-style="text-align:left;" readonly="true">
+								<f:convertDateTime pattern="dd/MM/yyyy"/>
+							</b:inputText>
+							<b:message for="idFechaRealizado" col-md="11" only-most-severe="true"></b:message>
+						</b:panelGrid>
+
+						<b:panelGrid colSpans="12" >
+							<b:commandButton id="btnSorteo" style="margin-top:20px;" value="Realizar sorteo" action="#{sorteoMB.realizarSorteo()}"  colMd="4"  offset="4"
+								rendered="#{(sorteoMB.cupoConcursoAbiertoDTO.sorteo.id == null)}" update="altaForm"	
+								onclick="$('.modalPseudoClass').modal('show')" onsuccess="$('.modalPseudoClass').modal('hide');"
+								></b:commandButton>
+						</b:panelGrid>
+						
+						<b:panelGrid colSpans="12" rendered="#{(sorteoMB.cupoConcursoAbiertoDTO.sorteo.id == null)}" >
+							<h3 align="center">Sorteo aún no realizado</h3>
+						</b:panelGrid>
+						
+						<!-- custom-options="dom: 'lfrtiBp',buttons: [{extend: 'pdfHtml5',title: 'Este es el titulo', exportOptions: {columns: [0,1,2,3,4,5,6,7]}}] " -->
+						<b:panel title="Lista" look="primary" rendered="#{sorteoMB.cupoConcursoAbiertoDTO.sorteo.id != null}" collapsible="false" >
+							<b:panelGrid colSpans="12">
+							<b:dataTable lang="es" value="#{sorteoMB.cupoConcursoAbiertoDTO.listaSorteo}" var="sorteado" style="margin-top:25px;"
+								               custom-options="dom: 'lfrtiBp',buttons: [{extend: 'excelHtml5', title:'Concurso #{sorteoMB.cupoConcursoAbiertoDTO.concurso.codigo}', exportOptions: {columns: [ 0,1,2,3,4,5 ]}},
+								               											{extend: 'print', title:'Concurso #{sorteoMB.cupoConcursoAbiertoDTO.concurso.codigo}', exportOptions: {columns: [ 0,1,2,3,4,5 ]}}
+								               										   ]">
+																
+								
+								<b:dataTableColumn value="#{sorteado.posicion}" label="Posicion" order="asc" data-order="#{sorteado.posicion}"/>
+								<b:dataTableColumn value="#{sorteado.numeroInscripcion}" label="Nro Insc"/>
+								<b:dataTableColumn value="#{sorteado.ci}-#{sorteado.ciBarra}" label="CI"/>
+								<b:dataTableColumn value="#{sorteado.primerNombre} #{sorteado.segundoNombre}" label="Nombres" />
+								<b:dataTableColumn value="#{sorteado.primerApellido} #{sorteado.segundoApellido}" label="Apellidos"/>
+								<b:dataTableColumn label="Fecha de nacimiento">
+									<h:outputText value="#{sorteado.fechaNacimiento}">
+										<f:convertDateTime pattern="dd/MM/yyyy"/>
+									</h:outputText>
+								</b:dataTableColumn>
+								<b:dataTableColumn value="#{sorteado.telefono}" label="Telefono"/>
+								<b:dataTableColumn value="#{sorteado.celular}" label="Celular"/>
+								<b:dataTableColumn value="#{sorteado.correo}" label="Correo electronico"/>
+							</b:dataTable>							
+							</b:panelGrid>
+						</b:panel>
+					</b:panel>
+					<b:modal id="amodal2" title="Procesando...." styleClass="modalPseudoClass" 
+           				closable="false"  close-on-escape="false" backdrop="false">
+           				<p style="display:block;text-align: center;padding-top:25px;padding-bottom:25px;">
+               		 		<b:iconAwesome name="spinner" spin="true" size="3x" solid="true" />
+			           </p>
+					</b:modal>
+			</b:form>
+		</ui:define>
+	
+	</llamados:plantilla-internet>
+</html>

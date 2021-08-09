@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:llamados="http://www.gub.uy/llamados"
+      xmlns:p="http://primefaces.org/ui">
+
+	<llamados:plantilla-internet>
+		<ui:define name="menu">
+			<ui:include src="menu.xhtml" />		
+		</ui:define>
+	
+		<ui:define name="cuerpo">
+			<b:form horizontal="true" id="altaForm">
+	
+				<h1>Lista de concursos abiertos</h1>
+					<p:dataTable value="#{listaConcursosAbiertosMB.listaConcursoAbierto}" reflow="true" var="concurso"
+									id="func-table" styleClass="cabezal-tabla">
+						<p:column  headerText="Código" >
+							<h:outputText value="#{concurso.codigo}"/>
+						</p:column>
+						
+						<p:column  headerText="Descipción">
+							<h:outputText value="#{concurso.descripcion}"/>
+						</p:column>
+						
+						<p:column  headerText="Fecha de inicio">
+							<h:outputText value="#{concurso.fechaDesde}">
+       							<f:convertDateTime pattern="dd/MM/yyyy" />
+ 							</h:outputText>
+						</p:column>	
+						<p:column headerText="Fecha de fin">
+							<h:outputText value="#{concurso.fechaHasta}">
+       							<f:convertDateTime pattern="dd/MM/yyyy" />
+ 							</h:outputText>
+						</p:column>
+						
+						
+						<p:column  headerText="Tope de edad">
+							<h:outputText value="#{concurso.edadTope}"/>
+						</p:column>
+						
+						<p:column headerText="Acciones" orderable="false">
+							<div style="text-align:center;">
+								<h:outputLink value="/app/gestion/llamados/pages/verConcursoAbierto.xhtml" style="margin-right:15px" title="Ver">
+									<b:iconAwesome name="eye" style="color:#000" ></b:iconAwesome>
+									<f:param name="concurso" value="#{concurso.codigo}" />
+								</h:outputLink>
+								<h:outputLink value="/app/gestion/llamados/pages/editarConcursoAbierto.xhtml" title="Editar">
+									<b:iconAwesome name="pencil" style="color:#000"></b:iconAwesome>
+									<f:param name="concurso" value="#{concurso.codigo}" />
+								</h:outputLink>
+							</div>
+						</p:column>
+				</p:dataTable>
+
+
+			</b:form>
+			
+		</ui:define>
+
+
+		
+	
+	</llamados:plantilla-internet>
+</html>
